@@ -6,10 +6,9 @@
 package hexamap.gdx;
 
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
@@ -21,13 +20,11 @@ public class Test implements ApplicationListener {
     private OrthographicCamera camera;
     private SpriteBatch batch;
     
-    private float SIZE_X = 800;
-    private float SIZE_Y = 480;
+    private final float SIZE_X = 800;
+    private final float SIZE_Y = 480;
 
     public Test() {
     }
-
-    
     
     @Override
     public void create() {
@@ -45,7 +42,6 @@ public class Test implements ApplicationListener {
 
     @Override
     public void render() {
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);  //clears the buffer 
         camera.update();
 
         batch.setProjectionMatrix(camera.combined);
@@ -56,12 +52,12 @@ public class Test implements ApplicationListener {
 
     @Override
     public void pause() {
-        throw new UnsupportedOperationException("Todo: pause");
+        //throw new UnsupportedOperationException("Todo: pause");
     }
 
     @Override
     public void resume() {
-        throw new UnsupportedOperationException("Todo: resume");
+        //throw new UnsupportedOperationException("Todo: resume");
     }
 
     @Override

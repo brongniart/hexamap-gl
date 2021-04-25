@@ -5,8 +5,8 @@
  */
 package hexamap.gdx;
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
 /**
  *
@@ -18,11 +18,10 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.title = "Test";
-        config.width = 800;
-        config.height = 480;
-        new LwjglApplication(new Test(), config);
+        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+        config.setTitle("Test");
+        config.setWindowedMode(480, 320);
+        new Lwjgl3Application(new Test(), config);
     }
 
 }
