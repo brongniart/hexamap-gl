@@ -33,5 +33,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/hexamap-core"/>
 	<classpathentry kind="output" path="bin/default"/>
 </classpath>
