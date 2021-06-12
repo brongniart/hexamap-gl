@@ -1,6 +1,6 @@
 layout (points) in;
 layout (line_strip) out;
-layout (max_vertices = 11) out;
+layout (max_vertices = 7) out;
 
 uniform mat4 g_WorldViewProjectionMatrix;
 const float PI = 3.141592654;
