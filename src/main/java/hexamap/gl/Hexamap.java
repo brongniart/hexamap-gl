@@ -18,12 +18,10 @@ public class Hexamap  extends Geometry {
 	
 	public Hexamap(Region<Axial> region,String name) {
 		super(name,new Mesh());
-		System.err.println("size: "+region.size());
 		float[] points = new float[region.size() * 2];
 		float[] color = new float[region.size() * 3];
 		int i = 0,j=0;
 		for (Coordinate c : region) {
-			System.err.println(c);
 			points[i++] = c.getX();
 			points[i++] = c.getY();
 			
