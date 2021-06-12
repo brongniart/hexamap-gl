@@ -12,8 +12,5 @@ dependencies {
 	compile 'org.jmonkeyengine:jme3-core:3.4.0-stable'
     compile 'org.jmonkeyengine:jme3-desktop:3.4.0-stable'
     compile 'org.jmonkeyengine:jme3-lwjgl:3.4.0-stable'
-
-    compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:1.10.0"
-    compile "com.badlogicgames.gdx:gdx-platform:0.9.9:natives-desktop"
     testImplementation     'junit:junit:4.13'
 }

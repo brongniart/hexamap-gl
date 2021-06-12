@@ -15,6 +15,7 @@ import com.jme3.util.BufferUtils;
 import hexamap.coordinates.Axial;
 import hexamap.coordinates.Coordinate;
 import hexamap.regions.Hexagon;
+import hexamap.regions.Rhombus;
 
 /**
  */
@@ -28,81 +29,29 @@ public class HelloWorld extends SimpleApplication {
 	public void simpleInitApp() {
 
 		flyCam.setMoveSpeed(100);
-
-		/*
-		 * mesh.setBuffer(VertexBuffer.Type.Index, 1, BufferUtils.createIntBuffer(new
-		 * int[]{0,1})); //2,3,4,5,6})); mesh.setBuffer(VertexBuffer.Type.Position, 2,
-		 * BufferUtils.createFloatBuffer(new float[]{ 0,0, 2,-(float) Math.sqrt(3),
-		 * 0,-(float) Math.sqrt(3) // 0,(float) Math.sqrt(3), }));
-		 */
-		Hexagon<Axial> region;
-		//Rhombus<Axial> region;
+		
 		try {
-			Mesh mesh = new Mesh();
-			region = new Hexagon<Axial>(256, Axial.class);
-			 //region = new Rhombus<Axial>(5);
-
-			float[] points = new float[region.size() * 2];
-			float[] color = new float[region.size() * 3];
-			int i = 0,j=0;
-			for (Coordinate c : region) {
-				points[i++] = c.getX();
-				points[i++] = c.getY();
-				
-				color[j++] = 0.1f+(.2f*i);;
-				color[j++] = 0.9f-(0.2f*i);
-				color[j++] = 0.5f;
-			}
-			mesh.setBuffer(VertexBuffer.Type.Position, 2, BufferUtils.createFloatBuffer(points));
-			mesh.setBuffer(Type.Color, 3, BufferUtils.createFloatBuffer(color));
-			mesh.setMode(Mesh.Mode.Points);
-			// mesh.setBound(new BoundingBox(new Vector3f(0, 0, 0), 10, 10, 10));
-			mesh.updateCounts();
-			
-			Geometry geometry = new Geometry("Region", mesh);
-			geometry.updateGeometricState();
+			Geometry geometry = new Hexamap(new Rhombus<Axial>(64, Axial.class),"Small grid");
 			
 			Material mat = new Material(assetManager, "Materials/Geom/Hexamap.j3md");
 			mat.setColor("Color", ColorRGBA.Brown);
 			mat.setInt("Size", 1);
 			geometry.setMaterial(mat);
+			
 			rootNode.attachChild(geometry);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		Hexagon<Axial> region1;
-		//Rhombus<Axial> region;
+		
 		try {
-			Mesh mesh = new Mesh();
-			region1 = new Hexagon<Axial>(2, Axial.class);
-			 //region = new Rhombus<Axial>(5);
-
-			float[] points = new float[region1.size() * 2];
-			float[] color = new float[region1.size() * 3];
-			int i = 0,j=0;
-			for (Coordinate c : region1) {
-				points[i++] = c.getX();
-				points[i++] = c.getY();
-				
-				color[j++] = 0.1f+(.2f*i);;
-				color[j++] = 0.9f-(0.2f*i);
-				color[j++] = 0.5f;
-			}
-			mesh.setBuffer(VertexBuffer.Type.Position, 2, BufferUtils.createFloatBuffer(points));
-			mesh.setBuffer(Type.Color, 3, BufferUtils.createFloatBuffer(color));
-			mesh.setMode(Mesh.Mode.Points);
-			// mesh.setBound(new BoundingBox(new Vector3f(0, 0, 0), 10, 10, 10));
-			mesh.updateCounts();
-			
-			Geometry geometry = new Geometry("Region2", mesh);
-			geometry.updateGeometricState();
+			Geometry geometry = new Hexamap(new Hexagon<Axial>(32, Axial.class),"Big grid");
 			
 			Material mat = new Material(assetManager, "Materials/Geom/Hexamap.j3md");
 			mat.setColor("Color", ColorRGBA.Gray);
-			mat.setInt("Size", 128);
+			mat.setInt("Size", 8);
 			geometry.setMaterial(mat);
+			
 			rootNode.attachChild(geometry);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -134,6 +83,7 @@ public class HelloWorld extends SimpleApplication {
 	@Override
 	public void simpleUpdate(float tpf) {
 		//INIT_X+=tpf/1000;
+		
         //earth.move(INIT_X,INIT_Y, 0);
 	}
 	
