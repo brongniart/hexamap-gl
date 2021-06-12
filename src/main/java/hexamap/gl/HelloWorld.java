@@ -1,5 +1,7 @@
 package hexamap.gl;
 
+import java.util.ArrayList;
+
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -31,7 +33,7 @@ public class HelloWorld extends SimpleApplication {
 		flyCam.setMoveSpeed(100);
 		
 		try {
-			Geometry geometry = new Hexamap(new Rhombus<Axial>(64, Axial.class),"Small grid");
+			Geometry geometry = new Hexamap(new Rhombus<Axial>(256, Axial.class),"Small grid");
 			
 			Material mat = new Material(assetManager, "Materials/Geom/Hexamap.j3md");
 			mat.setColor("Color", ColorRGBA.Brown);
@@ -49,9 +51,26 @@ public class HelloWorld extends SimpleApplication {
 			
 			Material mat = new Material(assetManager, "Materials/Geom/Hexamap.j3md");
 			mat.setColor("Color", ColorRGBA.Gray);
-			mat.setInt("Size", 8);
+			mat.setInt("Size", 4);
 			geometry.setMaterial(mat);
 			
+			rootNode.attachChild(geometry);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			ArrayList<Axial> list = new ArrayList<Axial>();
+			for (Coordinate c : new Axial().getNeigbours(16)) {
+					list.add((Axial) c);
+			}	
+			Geometry geometry = new Hexamap(list,"Ring");
+			
+			Material mat = new Material(assetManager, "Materials/Geom/Hexamap.j3md");
+			mat.setColor("Color", ColorRGBA.Red);
+			mat.setInt("Size", 4);
+			geometry.setMaterial(mat);
 			rootNode.attachChild(geometry);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
