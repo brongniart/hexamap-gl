@@ -7,6 +7,8 @@
 # Dll file
 *.dll
 
+bin/
+
 # Package Files #
 *.jar
 *.war
