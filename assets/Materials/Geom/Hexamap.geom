@@ -5,7 +5,7 @@ layout (max_vertices = 7) out;
 uniform mat4 g_WorldViewProjectionMatrix;
 const float PI = 3.141592654;
 
-const float SIZE = 2.0;
+uniform int m_Size;
 
 void main(){
 	for (float i = 0.0; i <= 6; i++) {
@@ -14,7 +14,7 @@ void main(){
 		
 		float ang = 2.0 * PI  / 6 * i;
 		
-		vec2 corner = vec2((offset_x+cos(ang)) * SIZE, (offset_y+sin(ang)) * SIZE);
+		vec2 corner = vec2((offset_x+cos(ang)) * m_Size, (offset_y+sin(ang)) * m_Size);
 		gl_Position = g_WorldViewProjectionMatrix*vec4(corner.xy, 0.0, 1.0);
 	
 		EmitVertex();

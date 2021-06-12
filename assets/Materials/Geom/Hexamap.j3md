@@ -1,7 +1,8 @@
 MaterialDef SimpleGeom {
 
     MaterialParameters {
-
+         Vector4 Color
+         Int Size
     }
 
      Technique {
