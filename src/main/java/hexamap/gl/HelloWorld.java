@@ -45,7 +45,6 @@ public class HelloWorld extends SimpleApplication {
 			
 			Material mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
 			mat.setColor("Color", ColorRGBA.Brown);
-			mat.setInt("Size", 1);
 			geometry.setMaterial(mat);
 			
 			rootNode.attachChild(geometry);
@@ -113,7 +112,7 @@ public class HelloWorld extends SimpleApplication {
 			e.printStackTrace();
 		}
 		*/
-		/*
+		/**/
 		try {
 			Set<Axial> list = new HashSet<Axial>();
 			Rhombus<Axial> region = new Rhombus<Axial>(256, Axial.class);
@@ -150,7 +149,7 @@ public class HelloWorld extends SimpleApplication {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
+		/**/
 		Node sol = new Node("sol");
         
 		Geometry sun = new Geometry("Sun", new Sphere(100, 100, (float) 30 * (float) 0.9 * (float) Math.sqrt(3)));
