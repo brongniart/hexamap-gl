@@ -1,6 +1,9 @@
 package hexamap.gl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
@@ -10,6 +13,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.VertexBuffer.Type;
+import com.jme3.scene.control.LodControl;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.system.AppSettings;
 import com.jme3.util.BufferUtils;
@@ -17,7 +21,9 @@ import com.jme3.util.BufferUtils;
 import hexamap.coordinates.Axial;
 import hexamap.coordinates.Coordinate;
 import hexamap.regions.Hexagon;
+import hexamap.regions.Region;
 import hexamap.regions.Rhombus;
+import jme3tools.optimize.LodGenerator;
 
 /**
  */
@@ -33,43 +39,93 @@ public class HelloWorld extends SimpleApplication {
 		flyCam.setMoveSpeed(100);
 		
 		try {
-			Geometry geometry = new Hexamap(new Rhombus<Axial>(256, Axial.class),"Small grid");
+			Rhombus<Axial> rhombus = new Rhombus<Axial>(256, Axial.class);
+			rhombus.switchDirection();
+			Geometry geometry = new Hexamap(rhombus,"Tiny grid");
 			
-			Material mat = new Material(assetManager, "Materials/Geom/Hexamap.j3md");
+			Material mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
 			mat.setColor("Color", ColorRGBA.Brown);
 			mat.setInt("Size", 1);
 			geometry.setMaterial(mat);
 			
 			rootNode.attachChild(geometry);
+
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		try {
-			Geometry geometry = new Hexamap(new Hexagon<Axial>(32, Axial.class),"Big grid");
+			Rhombus<Axial> rhombus = new Rhombus<Axial>(16, Axial.class);
+			rhombus.switchDirection();
+			rhombus.switchDirection();
+			Geometry geometry = new Hexamap(rhombus,"Small grid");
 			
-			Material mat = new Material(assetManager, "Materials/Geom/Hexamap.j3md");
-			mat.setColor("Color", ColorRGBA.Gray);
-			mat.setInt("Size", 4);
+			Material mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
+			mat.setColor("Color", ColorRGBA.LightGray);
+			mat.setInt("Size",20);
 			geometry.setMaterial(mat);
 			
 			rootNode.attachChild(geometry);
+
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		try {
-			ArrayList<Axial> list = new ArrayList<Axial>();
-			for (Coordinate c : new Axial().getNeigbours(16)) {
+			Set<Axial> list = new HashSet<Axial>();
+			for (Coordinate c : new Axial().getAllNeigbours(13)) {
 					list.add((Axial) c);
 			}	
-			Geometry geometry = new Hexamap(list,"Ring");
+			Geometry geometry = new Hexamap(list,"\'Ring\'");
 			
-			Material mat = new Material(assetManager, "Materials/Geom/Hexamap.j3md");
+			Material mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
 			mat.setColor("Color", ColorRGBA.Red);
-			mat.setInt("Size", 4);
+			mat.setInt("Size", 1);
+			geometry.setMaterial(mat);
+			rootNode.attachChild(geometry);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*
+		try {
+			Geometry geometry = new Hexamap(new Hexagon<Axial>(256, Axial.class),"Big grid");
+			
+			Material mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
+			mat.setColor("Color", ColorRGBA.Gray);
+			mat.setInt("Size", 16);
+			geometry.setMaterial(mat);
+			
+			rootNode.attachChild(geometry);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			Geometry geometry = new Hexamap(new Hexagon<Axial>(16, Axial.class),"Really big grid");
+			
+			Material mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
+			mat.setColor("Color", ColorRGBA.White);
+			mat.setInt("Size", 256);
+			geometry.setMaterial(mat);
+			
+			rootNode.attachChild(geometry);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		*/
+		/*
+		try {
+			Set<Axial> list = new HashSet<Axial>();
+			Rhombus<Axial> region = new Rhombus<Axial>(256, Axial.class);
+			region.switchDirection();
+			for (int i=0;i<4096;i++) {
+				list.add(region.getRandom());
+			}
+			Geometry geometry = new Hexamap(list,"Random_Rhombus");
+			
+			Material mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
+			mat.setColor("Color", ColorRGBA.Green);
+			mat.setInt("Size", 1);
 			geometry.setMaterial(mat);
 			rootNode.attachChild(geometry);
 		} catch (Exception e) {
@@ -77,9 +133,26 @@ public class HelloWorld extends SimpleApplication {
 			e.printStackTrace();
 		}
 		
+		try {
+			Set<Axial> list = new HashSet<Axial>();
+			Region<Axial> region = new Hexagon<Axial>(128, Axial.class);
+			for (int i=0;i<4096;i++) {
+				list.add(region.getRandom());
+			}
+			Geometry geometry = new Hexamap(list,"Random_Hexagon");
+			
+			Material mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
+			mat.setColor("Color", ColorRGBA.Yellow);
+			mat.setInt("Size", 1);
+			geometry.setMaterial(mat);
+			rootNode.attachChild(geometry);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
 		Node sol = new Node("sol");
-        rootNode.attachChild(sol);
-
+        
 		Geometry sun = new Geometry("Sun", new Sphere(100, 100, (float) 30 * (float) 0.9 * (float) Math.sqrt(3)));
 
 		Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
@@ -97,6 +170,8 @@ public class HelloWorld extends SimpleApplication {
         earth.move(INIT_X,INIT_Y, 0);
 
         sol.attachChild(earth);
+        
+        //rootNode.attachChild(sol);
 	}
 
 	@Override

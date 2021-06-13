@@ -1,0 +1,18 @@
+MaterialDef SimpleGeom {
+
+    MaterialParameters {
+         Vector4 Color
+         Int Size
+    }
+
+     Technique {
+        VertexShader GLSL330 GLSL320:   Materials/Geom/Hexamap/SimpleGrid.vert
+        GeometryShader GLSL330 GLSL320:   Materials/Geom/Hexamap/SimpleGrid.geom
+        FragmentShader GLSL330 GLSL320: Materials/Geom/Hexamap/SimpleGrid.frag
+
+        WorldParameters {
+            WorldViewProjectionMatrix
+        }
+    }
+
+}
