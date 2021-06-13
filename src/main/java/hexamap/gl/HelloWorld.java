@@ -36,6 +36,8 @@ public class HelloWorld extends SimpleApplication {
 	@Override
 	public void simpleInitApp() {
 
+		float inc = 8;
+		
 		flyCam.setMoveSpeed(100);
 		
 		try {
@@ -54,12 +56,12 @@ public class HelloWorld extends SimpleApplication {
 		}
 		
 		try {
-			Rhombus<Axial> rhombus = new Rhombus<Axial>(16, Axial.class);
+			Rhombus<Axial> rhombus = new Rhombus<Axial>(32, Axial.class);
 			Geometry geometry = new Hexamap(rhombus,"Small grid");
 			
 			Material mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
 			mat.setColor("Color", ColorRGBA.LightGray);
-			mat.setInt("Size",20);
+			mat.setFloat("Size",(float) (Math.sqrt(3) * inc));
 			mat.setBoolean("Pointy",true);
 			geometry.setMaterial(mat);
 			
@@ -70,14 +72,14 @@ public class HelloWorld extends SimpleApplication {
 		}
 		try {
 			Set<Axial> list = new HashSet<Axial>();
-			for (Coordinate c : new Axial().getNeigbours(11)) {
+			for (Coordinate c : new Axial().getNeigbours((int) inc)) {
 					list.add((Axial) c);
 			}	
 			Geometry geometry = new Hexamap(list,"\'Ring\'");
 			
 			Material mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
 			mat.setColor("Color", ColorRGBA.Red);
-			mat.setInt("Size", 1);
+			mat.setFloat("Size",1);
 			geometry.setMaterial(mat);
 			rootNode.attachChild(geometry);
 		} catch (Exception e) {
@@ -85,36 +87,18 @@ public class HelloWorld extends SimpleApplication {
 			e.printStackTrace();
 		}
 		try {
-			Set<Axial> list = new HashSet<Axial>();
-			for (Coordinate c : new Axial().getAllNeigbours(4)) {
-					list.add((Axial) c);
-			}	
-			Geometry geometry = new Hexamap(list,"\'Ring\'");
-			
-			Material mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
-			mat.setColor("Color", ColorRGBA.Blue);
-			mat.setInt("Size", 20);
-			mat.setBoolean("Pointy", true);
-			geometry.setMaterial(mat);
-			rootNode.attachChild(geometry);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		/*
-		try {
-			Geometry geometry = new Hexamap(new Hexagon<Axial>(16, Axial.class),"Really big grid");
+			Geometry geometry = new Hexamap(new Hexagon<Axial>(16, Axial.class),"Big grid");
 			
 			Material mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
 			mat.setColor("Color", ColorRGBA.White);
-			mat.setInt("Size", 256);
+			mat.setFloat("Size",(float) ((Math.sqrt(3) * inc )*inc*Math.sqrt(3)));
 			geometry.setMaterial(mat);
 			
 			rootNode.attachChild(geometry);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		*/
+		
 		/**/
 		try {
 			Set<Axial> list = new HashSet<Axial>();
@@ -127,7 +111,7 @@ public class HelloWorld extends SimpleApplication {
 			
 			Material mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
 			mat.setColor("Color", ColorRGBA.Green);
-			mat.setInt("Size", 1);
+			mat.setFloat("Size",1);
 			geometry.setMaterial(mat);
 			rootNode.attachChild(geometry);
 		} catch (Exception e) {
@@ -145,7 +129,7 @@ public class HelloWorld extends SimpleApplication {
 			
 			Material mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
 			mat.setColor("Color", ColorRGBA.Yellow);
-			mat.setInt("Size", 1);
+			mat.setFloat("Size",1);
 			geometry.setMaterial(mat);
 			rootNode.attachChild(geometry);
 		} catch (Exception e) {
