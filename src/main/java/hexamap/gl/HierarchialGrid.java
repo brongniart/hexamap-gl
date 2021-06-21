@@ -1,11 +1,8 @@
 package hexamap.gl;
 
-import java.util.Set;
-
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Geometry;
@@ -21,7 +18,9 @@ public class HierarchialGrid extends Node {
 	
 	// private SimpleGrid highlights;
 	private AssetManager assetManager;
-	SimpleGrid[] levels = new SimpleGrid[4]; 
+	int pow_max = 8;
+	int pow_min = 1;
+	SimpleGrid[] levels = new SimpleGrid[1+pow_max/(2*pow_min)];
 
 	public HierarchialGrid(String name, AssetManager _assetManager) {
 		super(name);
@@ -33,7 +32,7 @@ public class HierarchialGrid extends Node {
 		// attachChild(highlights);
 
 		createGrid();
-		addControl(new GridLodControl());
+		//addControl(new GridLodControl());
 	}
 
 	private void createGridLevel(int level,int sizeGrid, float sizeHexagon, ColorRGBA color, boolean pointy) {
@@ -49,34 +48,41 @@ public class HierarchialGrid extends Node {
 	}
 	
 	private void createGrid() {
-		float inc = 1; //(float) Math.sqrt(3);
-		boolean pointy = false;
+		
+		float sizeHexagon = 1;
+		int sizeGrid = (int) Math.pow(2, pow_max);
+		
+		boolean pointy = true;
 		boolean switchOrientation = false;
-
-		int size = 180;
-
-		float colorShift = 0.95f / levels.length;
-		ColorRGBA color = new ColorRGBA(0.05f, 0.05f, 0.05f, 1.0f);
+		float inc = (int) Math.pow(2, pow_min);
+		
+		float colorShift = 0.95f / (float) levels.length;
+		ColorRGBA color = new ColorRGBA(0.05f, 0.05f, 0.05f,  0.05f);
 		ColorRGBA shitf = new ColorRGBA(colorShift, colorShift, colorShift, 1.0f);
 		
-		createGridLevel(0,size,inc,color,false);
+		createGridLevel(0,sizeGrid,sizeHexagon,color,false);
 		
-		size = Math.max(0,size/3);
-		if (pointy) { // || switchOrientation) {
-			inc *= (float) Math.pow(Math.sqrt(3),3);
+		sizeGrid = (int) Math.max(0,sizeGrid/inc);
+		
+		if (pointy) {
+			sizeHexagon *= (float) Math.sqrt(3)*inc;
 		} else {
-			inc *= 9.0f;
+			sizeHexagon *= 3*inc;
 		}
+		color = color.add(shitf);
+
 		color = color.add(shitf);
 		
 		for (int level = 1; level < levels.length; level++) {
-			createGridLevel(level, size, inc,color, pointy);
-			
-			size = Math.max(0,size/3);
-			if (pointy || switchOrientation) {
-				inc *= (float) Math.pow(Math.sqrt(3),3);
+			if (level%2==0) {
+				createGridLevel(level, sizeGrid, sizeHexagon,color, pointy);
+			}
+			color = shitf.add(shitf);
+			sizeGrid /=  pow_max/2;
+			if (switchOrientation) { 
+				sizeHexagon *= (float) Math.sqrt(3)*inc;
 			} else {
-				inc *= 9.0f;
+				sizeHexagon *= inc;
 			}
 			color = color.add(shitf);
 			if (switchOrientation) {
@@ -93,24 +99,28 @@ public class HierarchialGrid extends Node {
 			super.setSpatial(spatial);
 			if (!(spatial instanceof HierarchialGrid)) {
 				throw new IllegalStateException("This control only accept HierarchialGrid spacial");
-			}
+			} 
 		}
 
 		@Override
 		protected void controlUpdate(float tpf) {
-			for (int level = 0; level < levels.length; level++) {
+			
+			for (int level =  1; level < levels.length; level+=2) {
+				Geometry p_level = levels[level-1];
+				float p_size = p_level.getMaterial().getParamValue("Size");
+				
 				Geometry g_level = levels[level];
 				float size = g_level.getMaterial().getParamValue("Size");
 				
-				//System.err.println(size);
-				/*if (size< dist/50) {
-					g_level.removeFromParent();
-				} else if (size > dist) {
-					g_level.removeFromParent();
-				} else {
-					g_level.removeFromParent();
-					attachChild(g_level);
-				}*/
+				if (dist < size*4*(levels.length-level/2)) {
+					attachChild(p_level);
+				} else if (dist >= size*4*(levels.length-level/2)) {
+					p_level.removeFromParent();
+				}
+			}
+			for (int level =  1; level < levels.length; level+=2) {
+				Geometry p_level = levels[level-1];
+				//p_level.removeFromParent();
 			}
 		}
 

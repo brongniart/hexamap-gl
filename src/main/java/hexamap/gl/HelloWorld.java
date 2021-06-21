@@ -21,6 +21,7 @@ import com.jme3.util.BufferUtils;
 
 import hexamap.coordinates.Axial;
 import hexamap.coordinates.Coordinate;
+import hexamap.coordinates.Direction;
 import hexamap.regions.Hexagon;
 import hexamap.regions.Region;
 import hexamap.regions.Rhombus;
@@ -36,33 +37,55 @@ public class HelloWorld extends SimpleApplication {
 
 	@Override
 	public void simpleInitApp() {
+		Region<Axial> region;
+		Material mat;
+		Geometry geometry;
 
 		flyCam.setMoveSpeed(100);
+
+		System.out.println("size: "+new Hexagon<Axial>(128, Axial.class).size());
 		
 		HierarchialGrid grid = new HierarchialGrid("Grid",assetManager);
 		rootNode.attachChild(grid);
 		
 		Set<Axial> list = new HashSet<Axial>();
-		for (Coordinate c : new Axial().getNeigbours(16)) {
+		for (Coordinate c : new Axial(1,-1).getNeigbours(65)) {
 			list.add((Axial) c);
 		}
-		Geometry geometry = new SimpleGrid(list, "\'Ring\'");
+		geometry = new SimpleGrid(list, "\'Ring\'");
 
-		Material mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
+		mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
 		mat.setColor("Color", ColorRGBA.Red);
 		mat.setFloat("Size", 1);
 		geometry.setMaterial(mat);
 		
 		rootNode.attachChild(geometry);
+
+		list = new HashSet<Axial>();
+		region = new Hexagon<Axial>(20, Axial.class);
+		for (int i = 0; i < 20*8; i++) {
+			list.add((Axial) region.getRandom().add(new Axial(53,21)));
+		}
+		geometry = new SimpleGrid(list, "Random_Hexagon");
+		
+		mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
+		mat.setColor("Color", ColorRGBA.Yellow);
+		mat.setFloat("Size", 1);
+		geometry.setMaterial(mat);
+
+		geometry.getMesh().setStatic();
+
+		rootNode.attachChild(geometry);
+		
+		int size = 18;
+		int samples = 16;
 		
 		list = new HashSet<Axial>();
-		Region<Axial> region = new Rhombus<Axial>(256, Axial.class);
-		System.out.println("size: "+region.size());
-		((Rhombus<Axial>) region).switchDirection();
-		for (int i = 0; i < 256; i++) {
+		region = new Rhombus<Axial>(size, Axial.class);
+		for (int i = 0; i < samples*size; i++) {
 			list.add(region.getRandom());
 		}
-		geometry = new SimpleGrid(list, "Random_Rhombus");
+		geometry = new SimpleGrid(list, "Random_Rhombus_1");
 
 		mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
 		mat.setColor("Color", ColorRGBA.Green);
@@ -74,19 +97,61 @@ public class HelloWorld extends SimpleApplication {
 		rootNode.attachChild(geometry);
 
 		list = new HashSet<Axial>();
-		region = new Hexagon<Axial>(128, Axial.class);
-		for (int i = 0; i < 256; i++) {
+		region = new Rhombus<Axial>(size, Direction.SOUTH_EAST,Axial.class);
+		for (int i = 0; i < samples*size; i++) {
 			list.add(region.getRandom());
 		}
-		geometry = new SimpleGrid(list, "Random_Hexagon");
-		
+		geometry = new SimpleGrid(list, "Random_Rhombus_2");
+
 		mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
-		mat.setColor("Color", ColorRGBA.Yellow);
+		mat.setColor("Color", ColorRGBA.Magenta);
 		mat.setFloat("Size", 1);
 		geometry.setMaterial(mat);
 
 		geometry.getMesh().setStatic();
 
+		rootNode.attachChild(geometry);
+
+		list = new HashSet<Axial>();
+		region = new Rhombus<Axial>(size, Direction.NORD_EAST,Axial.class);
+		for (int i = 0; i < samples*size; i++) {
+			list.add(region.getRandom());
+		}
+		geometry = new SimpleGrid(list, "Random_Rhombus_3");
+
+		mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
+		mat.setColor("Color", ColorRGBA.Pink);
+		mat.setFloat("Size", 1);
+		geometry.setMaterial(mat);
+
+		geometry.getMesh().setStatic();
+
+		rootNode.attachChild(geometry);
+
+		
+		list = new HashSet<Axial>();
+		region = new Hexagon<Axial>(5, Axial.class);
+		for (Coordinate c : region) {
+			list.add((Axial) c);
+		}
+		geometry = new SimpleGrid(list, "Random_Rhombus_center");
+
+		mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
+		mat.setColor("Color", ColorRGBA.LightGray);
+		mat.setFloat("Size", 1);
+		geometry.setMaterial(mat);
+
+		geometry.getMesh().setStatic();
+
+		rootNode.attachChild(geometry);
+
+		geometry = new SimpleGrid(new Axial[] { new Axial()}, "Center");
+
+		mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
+		mat.setColor("Color", ColorRGBA.Orange);
+		mat.setFloat("Size", 1);
+		geometry.setMaterial(mat);
+		
 		rootNode.attachChild(geometry);
 
 		/**/
@@ -110,7 +175,7 @@ public class HelloWorld extends SimpleApplication {
 
 		sol.attachChild(earth);
 
-		// rootNode.attachChild(sol);
+		//rootNode.attachChild(sol);
 	}
 
 	@Override
