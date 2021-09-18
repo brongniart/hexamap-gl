@@ -24,6 +24,10 @@ hs_err_pid*
 # netbean
 nbproject/
 
+# eclipse
+.classpath
+.settings/
+
 # gradle
 gradlew.bat
 build/
