@@ -31,8 +31,8 @@ import jme3tools.optimize.LodGenerator;
  */
 public class HelloWorld extends SimpleApplication {
 
-	private float INIT_X = 50;
-	private float INIT_Y = 50;
+	private float INIT_X = 24;
+	private float INIT_Y = 24;
 	private Geometry earth;
 
 	@Override
@@ -43,13 +43,13 @@ public class HelloWorld extends SimpleApplication {
 
 		flyCam.setMoveSpeed(100);
 
-		System.out.println("size: "+new Hexagon<Axial>(128, Axial.class).size());
+		System.out.println("size: "+new Hexagon<Axial>(256, Axial.class).size());
 		
 		HierarchialGrid grid = new HierarchialGrid("Grid",assetManager);
 		rootNode.attachChild(grid);
 		
 		Set<Axial> list = new HashSet<Axial>();
-		for (Coordinate c : new Axial(1,-1).getNeigbours(65)) {
+		for (Coordinate c : new Axial(0,0).getNeigbours(100)) {
 			list.add((Axial) c);
 		}
 		geometry = new SimpleGrid(list, "\'Ring\'");
@@ -127,7 +127,6 @@ public class HelloWorld extends SimpleApplication {
 		geometry.getMesh().setStatic();
 
 		rootNode.attachChild(geometry);
-
 		
 		list = new HashSet<Axial>();
 		region = new Hexagon<Axial>(5, Axial.class);
@@ -157,7 +156,7 @@ public class HelloWorld extends SimpleApplication {
 		/**/
 		Node sol = new Node("sol");
 
-		Geometry sun = new Geometry("Sun", new Sphere(100, 100, (float) 30 * (float) 0.9 * (float) Math.sqrt(3)));
+		Geometry sun = new Geometry("Sun", new Sphere(100, 100, (float) 15 * (float) 0.9 * (float) Math.sqrt(3)));
 
 		mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setColor("Color", ColorRGBA.Yellow);
