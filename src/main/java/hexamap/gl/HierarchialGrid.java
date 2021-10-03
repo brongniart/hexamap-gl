@@ -12,7 +12,6 @@ import com.jme3.scene.control.AbstractControl;
 
 import hexamap.coordinates.Axial;
 import hexamap.regions.Hexagon;
-import hexamap.regions.Rhombus;
 
 public class HierarchialGrid extends Node {
 	
@@ -126,7 +125,7 @@ public class HierarchialGrid extends Node {
 
 		@Override
 		protected void controlRender(RenderManager rm, ViewPort vp) {
-			int width = rm.getCurrentCamera().getWidth();
+			//int width = rm.getCurrentCamera().getWidth();
 			dist = rm.getCurrentCamera().distanceToNearPlane(getWorldTranslation());
 		}
 	}

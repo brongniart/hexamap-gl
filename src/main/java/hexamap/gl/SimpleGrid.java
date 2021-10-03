@@ -1,6 +1,5 @@
 package hexamap.gl;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import com.jme3.scene.Geometry;

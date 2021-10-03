@@ -1,23 +1,15 @@
 package hexamap.gl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
-import com.jme3.material.RenderState.FaceCullMode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
-import com.jme3.scene.VertexBuffer;
-import com.jme3.scene.VertexBuffer.Type;
-import com.jme3.scene.control.LodControl;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.system.AppSettings;
-import com.jme3.util.BufferUtils;
 
 import hexamap.coordinates.Axial;
 import hexamap.coordinates.Coordinate;
@@ -25,7 +17,6 @@ import hexamap.coordinates.Direction;
 import hexamap.regions.Hexagon;
 import hexamap.regions.Region;
 import hexamap.regions.Rhombus;
-import jme3tools.optimize.LodGenerator;
 
 /**
  */
