@@ -45,7 +45,7 @@ public class HierarchialGrid extends Node {
 		materialLevel[level].setBoolean("Pointy", pointy);
 	
 
-		levels[level] = new SimpleGrid(new Hexagon<Axial>(sizeGridLevel[level], Axial.class), "Level_" + level);
+		levels[level] = new SimpleGrid(new Hexagon<Axial>(sizeGridLevel[level], new Axial()), "Level_" + level);
 		levels[level].setMaterial(materialLevel[level]);
 	}
 
