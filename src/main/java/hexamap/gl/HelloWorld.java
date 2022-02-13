@@ -14,132 +14,113 @@ import com.jme3.system.AppSettings;
 
 import hexamap.coordinates.Axial;
 import hexamap.coordinates.Coordinate;
-import hexamap.regions.Hexagon;
+import hexamap.coordinates.Direction;
 import hexamap.regions.Region;
+import hexamap.regions.base.Hexagon;
+import hexamap.regions.base.Triangle;
 
 /**
  */
 public class HelloWorld extends SimpleApplication {
 
-	private float INIT_X = 24;
-	private float INIT_Y = 24;
-	private Geometry earth;
+    private float INIT_X = 24;
+    private float INIT_Y = 24;
+    private Geometry earth;
 
-	@Override
-	public void simpleInitApp() {
-		Region<Axial> region;
-		Material mat;
-		Geometry geometry;
+    @Override
+    public void simpleInitApp() {
+        Region region;
+        Material mat;
+        Geometry geometry;
 
-		flyCam.setMoveSpeed(100);
+        flyCam.setMoveSpeed(100);
 
-		System.out.println("size: "+new Hexagon<Axial>(256, new Axial()).size());
-		
-		HierarchialGrid grid = new HierarchialGrid("Grid",assetManager);
-		rootNode.attachChild(grid);
-		
-		Set<Axial> list = new HashSet<Axial>();
-		for (Coordinate c : new Axial(0,0).getNeigbours(100)) {
-			list.add((Axial) c);
-		}
-		geometry = new SimpleGrid(list, "\'Ring\'");
+        Set<Axial> list = new HashSet<Axial>();
+        for (Coordinate c : new Axial(0, 0).getNeigbours(20)) {
+            list.add(new Axial(c));
+        }
+        geometry = new SimpleGrid(list, "\'Ring\'");
 
-		mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
-		mat.setColor("Color", ColorRGBA.Red);
-		mat.setFloat("Size", 1);
-		geometry.setMaterial(mat);
-		
-		rootNode.attachChild(geometry);
+        mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
+        mat.setColor("Color", ColorRGBA.Red);
+        mat.setFloat("Size", 1);
+        geometry.setMaterial(mat);
 
-		list = new HashSet<Axial>();
-		region = new Hexagon<Axial>(20, new Axial());
-		for (int i = 0; i < 20*8; i++) {
-			list.add((Axial) region.getRandom(new Random()));
-		}
-		geometry = new SimpleGrid(list, "Random_Hexagon");
-		
-		mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
-		mat.setColor("Color", ColorRGBA.Yellow);
-		mat.setFloat("Size", 1);
-		geometry.setMaterial(mat);
+        rootNode.attachChild(geometry);
 
-		geometry.getMesh().setStatic();
+        list = new HashSet<Axial>();
+        region = new Hexagon(20, new Axial());
+        Random rand=new Random();
+        for (int i = 0; i < region.size(); i++) {
+            Coordinate c = region.getRandom(rand);
+            System.out.println(c);
+            list.add((Axial) c);
+            System.out.println(list.size()+":"+region.size());
+        }
+        System.out.println(list.size()+":"+region.size());
+        geometry = new SimpleGrid(list, "Random_Hexagon");
 
-		rootNode.attachChild(geometry);
-		
-		int size = 18;
-		int samples = 16;
-		
-		mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
-		mat.setColor("Color", ColorRGBA.Pink);
-		mat.setFloat("Size", 1);
-		geometry.setMaterial(mat);
+        mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
+        mat.setColor("Color", ColorRGBA.Yellow);
+        mat.setFloat("Size", 1);
+        geometry.setMaterial(mat);
 
-		geometry.getMesh().setStatic();
+        geometry.getMesh().setStatic();
 
-		rootNode.attachChild(geometry);
-		
-		list = new HashSet<Axial>();
-		region = new Hexagon<Axial>(5, new Axial());
-		for (Coordinate c : region) {
-			list.add((Axial) c);
-		}
-		geometry = new SimpleGrid(list, "Random_Rhombus_center");
+        rootNode.attachChild(geometry);
 
-		mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
-		mat.setColor("Color", ColorRGBA.LightGray);
-		mat.setFloat("Size", 1);
-		geometry.setMaterial(mat);
+        list = new HashSet<Axial>();
+        region = new Triangle(Direction.NORD_EAST,5, new Axial());
+        for (Coordinate c : region) {
+            list.add(new Axial(c));
+        }
+        geometry = new SimpleGrid(list, "Triangle");
 
-		geometry.getMesh().setStatic();
+        mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
+        mat.setColor("Color", ColorRGBA.LightGray);
+        mat.setFloat("Size", 1);
+        geometry.setMaterial(mat);
 
-		rootNode.attachChild(geometry);
+        geometry.getMesh().setStatic();
 
-		geometry = new SimpleGrid(new Axial[] { new Axial()}, "Center");
+        rootNode.attachChild(geometry);
+        
+        /**/
+        Node sol = new Node("sol");
 
-		mat = new Material(assetManager, "Materials/Geom/Hexamap/SimpleGrid.j3md");
-		mat.setColor("Color", ColorRGBA.Orange);
-		mat.setFloat("Size", 1);
-		geometry.setMaterial(mat);
-		
-		rootNode.attachChild(geometry);
+        Geometry sun = new Geometry("Sun", new Sphere(100, 100, (float) 1 * (float) 0.9 * (float) Math.sqrt(3)));
 
-		/**/
-		Node sol = new Node("sol");
+        mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Yellow);
+        sun.setMaterial(mat);
 
-		Geometry sun = new Geometry("Sun", new Sphere(100, 100, (float) 15 * (float) 0.9 * (float) Math.sqrt(3)));
+        sol.attachChild(sun);
 
-		mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", ColorRGBA.Yellow);
-		sun.setMaterial(mat);
+        earth = new Geometry("Earth", new Sphere(100, 100, (float) 1 * (float) 0.9 * (float) Math.sqrt(3)));
 
-		sol.attachChild(sun);
+        mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Blue);
+        earth.setMaterial(mat);
 
-		earth = new Geometry("Earth", new Sphere(100, 100, (float) 1 * (float) 0.9 * (float) Math.sqrt(3)));
+        earth.move(INIT_X, INIT_Y, 0);
 
-		mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", ColorRGBA.Blue);
-		earth.setMaterial(mat);
+        sol.attachChild(earth);
 
-		earth.move(INIT_X, INIT_Y, 0);
+        //rootNode.attachChild(sol);
+    }
 
-		sol.attachChild(earth);
+    @Override
+    public void simpleUpdate(float tpf) {
+        // INIT_X+=tpf/1000;
 
-		//rootNode.attachChild(sol);
-	}
+        // earth.move(INIT_X,INIT_Y, 0);
+    }
 
-	@Override
-	public void simpleUpdate(float tpf) {
-		// INIT_X+=tpf/1000;
-
-		// earth.move(INIT_X,INIT_Y, 0);
-	}
-
-	public static void main(String[] args) {
-		HelloWorld app = new HelloWorld();
-		AppSettings settings = new AppSettings(true);
-		settings.setRenderer(AppSettings.LWJGL_OPENGL33);
-		app.setSettings(settings);
-		app.start();
-	}
+    public static void main(String[] args) {
+        HelloWorld app = new HelloWorld();
+        AppSettings settings = new AppSettings(true);
+        settings.setRenderer(AppSettings.LWJGL_OPENGL33);
+        app.setSettings(settings);
+        app.start();
+    }
 }

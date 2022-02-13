@@ -11,7 +11,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 
 import hexamap.coordinates.Axial;
-import hexamap.regions.Hexagon;
+import hexamap.regions.base.Hexagon;
 
 public class HierarchialGrid extends Node {
 	
@@ -45,7 +45,7 @@ public class HierarchialGrid extends Node {
 		materialLevel[level].setBoolean("Pointy", pointy);
 	
 
-		levels[level] = new SimpleGrid(new Hexagon<Axial>(sizeGridLevel[level], new Axial()), "Level_" + level);
+		levels[level] = new SimpleGrid(new Hexagon(sizeGridLevel[level], new Axial()), "Level_" + level);
 		levels[level].setMaterial(materialLevel[level]);
 	}
 
